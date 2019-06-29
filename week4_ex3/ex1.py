@@ -14,7 +14,7 @@ X = data['X']
 y = data['y']
 
 #1.2
-#displayData(X)
+displayData(X)
 
 
 #1.4
