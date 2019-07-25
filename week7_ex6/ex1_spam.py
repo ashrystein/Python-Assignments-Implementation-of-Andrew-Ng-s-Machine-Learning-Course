@@ -36,6 +36,8 @@ spamTrainData = loadmat('spamTrain.mat')
 X = spamTrainData['X']
 y = spamTrainData['y']
 
+print('>   ' ,spamTrainData)
+
 C =0.1
 kernel ="linear"
 classifier = SVC(C = C,kernel = kernel)
@@ -47,7 +49,7 @@ spamDataTest = loadmat('spamTest.mat')
 Xtest = spamDataTest['Xtest']
 ytest = spamDataTest['ytest']
 classifier.predict(Xtest)
-print("Training Accuracy:",(classifier.score(Xtest,ytest.ravel()))*100,"%")
+print("Testing Accuracy:",(classifier.score(Xtest,ytest.ravel()))*100,"%")
 
 
 #2.4
