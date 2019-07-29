@@ -18,6 +18,8 @@ def featuresCleaning(Xt):
     Xt.drop(drop_columns, axis=1, inplace=True)
     Xt['Age'] = Xt['Age'].fillna((Xt['Age'].mean()))
     Xt['Fare'] = Xt['Fare'].fillna((Xt['Fare'].mean()))
+    Xt['SibSp'] = Xt['SibSp'].fillna((Xt['SibSp'].mean()))
+    Xt['Parch'] = Xt['Parch'].fillna((Xt['Parch'].mean()))
 
     le = preprocessing.LabelEncoder()
     le = le.fit(Xt['Sex'])

@@ -14,6 +14,7 @@ from featuresCleaning import featuresCleaning
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import make_scorer, accuracy_score
 from sklearn.model_selection import GridSearchCV
+from Kfold import run_kfold
 
 
 
@@ -62,12 +63,25 @@ ytest = classifier.predict(Xtest)
 genderSubmissionData = pd.read_csv('gender_submission.csv')
 actualYtest = genderSubmissionData.iloc[:,1]
 
-mask = actualYtest == predictionsTest
+
+clf2 = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5,2), random_state=1)
+clf2.fit(Xt, yt.ravel())
+NNpredictions = clf2.predict(Xt)
+NNytest = clf2.predict(Xtest)
+print("Training Accuracy NN:",(accuracy_score(NNpredictions,yt.ravel()))*100,"%")
+
+
+
+mask = (actualYtest == NNytest)
 m = len(mask)
-print('Actuall Accuracy:  ',((np.sum(mask))/m)*100 , '%')
+print('Actuall Accuracy:  ',accuracy_score(NNytest,actualYtest.ravel())*100 , '%')
 
 passenger = dataTest.iloc[:, 0]
-label = pd.DataFrame(predictionsTest)
+label = pd.DataFrame(NNytest)
 result = pd.concat([passenger, label], axis=1)
 result.columns = ['PassengerId', 'Survived']
 result.to_csv('submission.csv', index=False)
+
+
+print('Kfold >','\n')
+run_kfold(clf2 , Xt , yt.ravel())
